@@ -11,6 +11,8 @@ Below is a mildly modified Brooklyn Data Co SQL Style Guide.
 
 To suggest a modification to the WFP SQL Style Guide, open a PR. In your PR, you should request the changes to this README.md file and provide a justification for your change. You should speak to how your request helps us write SQL that is optimized for readability, maintainability, and robustness. 
 
+The Data Team will review all changes to the SQL Style Guide and vote on the PR. The Data Director has veto power in changes to the SQL Style Guide. 
+
 ## General guidelines
 
 #### Optimize primarily for readability, maintainability, and robustness rather than for fewer lines of code.
