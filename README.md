@@ -9,11 +9,6 @@ Newlines are cheap; people's time is expensive.
 
 <br>
 
-#### Avoid having enormous `select` statements.
-If a `select` statement is so large it can't be easily comprehended, it would be better to refactor it into multiple smaller CTEs that are later joined back together.
-
-<br>
-
 #### Lines should ideally not be longer than 120 characters.
 Very long lines are harder to read, especially in situations where space may be limited like on smaller screens or in side-by-side version control diffs.
 
@@ -27,12 +22,6 @@ It's more readable, easier to keep consistent, and avoids having to quote identi
 #### Never use reserved words as identifiers.
 Otherwise the identifier will have to be quoted everywhere it's used.
 
-<br>
-
-#### Never use tab characters.
-It's easier to keep things consistent in version control when only space characters are used.
-
-<br>
 
 ## Syntax
 
@@ -353,34 +342,6 @@ from (
 
 ## Naming
 
-#### Name single-column primary keys `id`.
-This allows us to easily tell at a glance whether a column is a primary key, helps us [discern whether joins are one-to-many or many-to-one](#in-join-conditions-put-the-table-that-was-referenced-first-immediately-after-on), and is more succinct than other primary key naming conventions (particularly in join conditions).
-
-```sql
-/* Good */
-select ...
-from orders
-left join customers on orders.customer_id = customers.id
-/* Easier to tell this is a many-to-one join and thus won't fan out. */
-
-/* Bad */
-select ...
-from orders
-left join customers on orders.customer_id = customers.customer_id
-
-/* Good */
-select ...
-from orders
-left join some_exceedingly_long_name on orders.some_exceedingly_long_name_id = some_exceedingly_long_name.id
-
-/* Bad */
-select ...
-from orders
-left join some_exceedingly_long_name on orders.some_exceedingly_long_name_id = some_exceedingly_long_name.some_exceedingly_long_name_id
-```
-
-<br>
-
 #### Date/time column names:
   - Date columns based on UTC should be named like `<event>_date`.
   - Date columns based on a specific timezone should be named like `<event>_date_<timezone indicator>` (e.g. `order_date_et`).
@@ -459,27 +420,6 @@ select email
 
 <br>
 
-#### Indents should generally be 4 spaces.
-```sql
-/* Good */
-select
-    id
-    , email
-from customers
-where
-    email like '%@domain.com'
-    and plan_name != 'free'
-
-/* Bad */
-select
-  id
-  , email
-from customers
-where email like '%@domain.com'
-  and plan_name != 'free'
-```
-
-<br>
 
 #### Never end a line with an operator like `and`, `or`, `+`, `||`, etc.
 If code containing such operators needs to be split across multiple lines, put the operators at the beginning of the subsequent lines.
@@ -504,40 +444,21 @@ where
 
 <br>
 
-#### Using leading commas.
-If code containing commas needs to be split across multiple lines, put the commas at the beginning of the subsequent lines, followed by a space.
-  - This makes it easier to spot missing commas.
-  - Version control diffs will be cleaner when adding to the end of a list because you don't have to add a trailing comma to the preceding line.
-  - The comma is only there for/because of what follows it.  If nothing followed the comma it wouldn't be needed, so putting the comma on the same line as what follows it makes it clearer why it's there.
+#### Using trailing commas.
+If code containing commas needs to be split across multiple lines, put the commas at the **end** of the subsequent lines, followed by a space.
 
 ```sql
 /* Good */
 with
-    customers as (
-        ...
-    )
-    , paying_customers as (
-        ...
-    )
-select
-    id
-    , email
-    , date_trunc('month', created_at) as signup_month
-from paying_customers
-where email in (
-        'user-1@example.com'
-        , 'user-2@example.com'
-        , 'user-3@example.com'
-    )
 
-/* Bad */
-with
-    customers as (
-        ...
-    ),
-    paying_customers as (
-        ...
-    )
+customers as (
+   ...
+), 
+
+paying_customers as (
+   ...
+)
+
 select
     id,
     email,
@@ -545,9 +466,10 @@ select
 from paying_customers
 where email in (
         'user-1@example.com',
-        'user-2@example.com',
-        'user-3@example.com'
+         'user-2@example.com',
+         'user-3@example.com'
     )
+
 ```
 
 <br>
@@ -563,8 +485,8 @@ select id
 
 /* Good */
 select
-    id
-    , email
+    id,
+    email
 
 /* Bad */
 select id, email
