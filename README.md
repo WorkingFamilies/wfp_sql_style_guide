@@ -1,6 +1,15 @@
 # Working Families Party SQL Style Guide 
 
-At Working Families Party, we use the Brooklyn Data Co Style Guide witha. few exceptions. 
+At Working Families Party, we use the [Brooklyn Data Co Style Guide](https://github.com/brooklyn-data/co/blob/main/sql_style_guide.md) with a few exceptions. These include:
+
+- We use trailing commas, not leading commas
+- We do not indent our CTEs
+
+Below is a mildly modified Brooklyn Data Co SQL Style Guide. 
+
+## How to propose changes to the WFP SQL Style guide
+
+To suggest a modification to the WFP SQL Style Guide, open a PR. In your PR, you should request the changes to this README.md file and provide a justification for your change. You should speak to how your request helps us write SQL that is optimized for readability, maintainability, and robustness. 
 
 ## General guidelines
 
