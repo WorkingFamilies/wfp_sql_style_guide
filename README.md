@@ -131,14 +131,14 @@ This makes the intention clear.
 ```sql
 /* Good */
 select distinct
-    customer_id
-    , date_trunc('day', created_at) as purchase_date
+    customer_id,
+    date_trunc('day', created_at) as purchase_date
 from orders
 
 /* Bad */
 select
-    customer_id
-    , date_trunc('day', created_at) as purchase_date
+    customer_id,
+    date_trunc('day', created_at) as purchase_date
 from orders
 group by 1, 2
 ```
@@ -274,17 +274,17 @@ You should be able to tell at a glance where a column is coming from.
 ```sql
 /* Good */
 select
-    customers.email
-    , orders.invoice_number
-    , orders.total_amount
+    customers.email,
+    orders.invoice_number,
+    orders.total_amount
 from customers
 inner join orders on customers.id = orders.customer_id
 
 /* Bad */
 select
-    email
-    , invoice_number
-    , total_amount
+    email,
+    invoice_number,
+    total_amount
 from customers
 inner join orders on customers.id = orders.customer_id
 ```
@@ -331,11 +331,12 @@ CTEs will make your queries more straightforward to read/reason about, can be re
 ```sql
 /* Good */
 with
-    paying_customers as (
-        select *
-        from customers
-        where plan_name != 'free'
-    )
+
+paying_customers as (
+    select *
+    from customers
+    where plan_name != 'free'
+)
 
 select ...
 from paying_customers
@@ -391,15 +392,15 @@ Suggested guidelines:
 ```sql
 /* Good */
 select
-    customers.email
-    , orders.invoice_number
+    customers.email,
+    orders.invoice_number
 from customers
 inner join orders on customers.id = orders.customer_id
 
 /* Bad */
 select
-    c.email
-    , o.invoice_number
+    c.email,
+    o.invoice_number
 from customers as c
 inner join orders as o on c.id = o.customer_id
 ```
@@ -479,7 +480,7 @@ where email in (
         'user-1@example.com',
          'user-2@example.com',
          'user-3@example.com'
-    )
+)
 
 ```
 
@@ -599,17 +600,17 @@ group by 1, 2, 3
 
 /* Bad */
 group by
-    1
-    , 2
-    , 3
+    1,
+    2,
+    3
 
 /* Good */
 order by plan_name
 
 /* Good */
 order by
-    plan_name
-    , signup_month
+    plan_name,
+    signup_month
 
 /* Bad */
 order by plan_name, signup_month
@@ -629,10 +630,11 @@ order by plan_name
 ```sql
 /* Good */
 with
-    paying_customers as (
-        select ...
-        from customers
-    )
+
+paying_customers as (
+    select ...
+    from customers
+)
 
 select ...
 from paying_customers
@@ -649,16 +651,17 @@ from paying_customers
 
 /* Good */
 with
-    paying_customers as (
-        select ...
-        from customers
-    )
 
-    , paying_customers_per_month as (
-        /* CTE comments... */
-        select ...
-        from paying_customers
-    )
+paying_customers as (
+    select ...
+    from customers
+), 
+
+paying_customers_per_month as (
+    /* CTE comments... */
+    select ...
+    from paying_customers
+)
 
 select ...
 from paying_customers_per_month
@@ -666,18 +669,18 @@ from paying_customers_per_month
 /* Bad */
 with paying_customers as (
 
-        select ...
-        from customers
+    select ...
+    from customers
 
-    )
+)
 
-    /* CTE comments... */
-    , paying_customers_per_month as (
+/* CTE comments... */
+, paying_customers_per_month as (
 
-        select ...
-        from paying_customers
+    select ...
+    from paying_customers
 
-      )
+  )
 
 select ...
 from paying_customers_per_month
@@ -733,7 +736,7 @@ select
 /* Good */
 select
     ...
-    , case
+    case
         when customers.status_code = 1
             and customers.deleted_at is null
             then 'Active'
@@ -743,7 +746,7 @@ select
 /* Bad */
 select
     ...
-    , case
+    case
         when customers.status_code = 1 and customers.deleted_at is null
         then 'Active'
         else 'Inactive'
@@ -753,7 +756,7 @@ select
 /* Good */
 select
     ...
-    , sum(
+    sum(
         case
             when customers.status_code = 1
                 and customers.deleted_at is null
@@ -765,7 +768,7 @@ select
 /* Bad */
 select
     ...
-    , sum(case
+    sum(case
           when customers.status_code = 1 and customers.deleted_at is null then customers.lifetime_value
           else 0
       end) as active_customers_lifetime_value
@@ -785,16 +788,16 @@ select
 ```sql
 /* Good */
 select
-    customer_id
-    , invoice_number
-    , row_number() over (partition by customer_id order by created_at) as order_rank
+    customer_id,
+    invoice_number,
+    row_number() over (partition by customer_id order by created_at) as order_rank
 from orders
 
 /* Good */
 select
-    customer_id
-    , invoice_number
-    , row_number() over (
+    customer_id,
+    invoice_number,
+    row_number() over (
         partition by customer_id
         order by created_at
       ) as order_rank
@@ -802,9 +805,9 @@ from orders
 
 /* Bad */
 select
-    customer_id
-    , invoice_number
-    , row_number() over (partition by customer_id
+    customer_id,
+    invoice_number,
+    row_number() over (partition by customer_id
                          order by created_at) as order_rank
 from orders
 ```
@@ -817,9 +820,9 @@ from orders
 ```sql
 /* Good */
 where email in (
-        'user-1@example.com'
-        , 'user-2@example.com'
-        , 'user-3@example.com'
+        'user-1@example.com',
+        'user-2@example.com',
+        'user-3@example.com'
     )
 
 /* Bad */
