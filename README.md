@@ -589,20 +589,13 @@ where email like '%@domain.com'
 <br>
 
 #### `group by` and `order by` clauses:
-  - If grouping/ordering by column numbers, put all numbers on the same line as `group by`/`order by`.
-  - If grouping/ordering by column names/aliases:
-    - If there is only one column, put it on the same line as `group by`/`order by`.
-    - If there are multiple columns, put each on its own line (including the first one), indented one level more than `group by`/`order by`.
+  - Don't group by column numbers, use column names.
+  - If there is only one column, put it on the same line as `group by`/`order by`.
+  - If there are multiple columns, put each on its own line (including the first one), indented one level more than `group by`/`order by`.
 
 ```sql
-/* Good */
-group by 1, 2, 3
-
 /* Bad */
-group by
-    1,
-    2,
-    3
+group by 1, 2, 3
 
 /* Good */
 order by plan_name
